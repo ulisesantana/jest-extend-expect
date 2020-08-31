@@ -1,0 +1,36 @@
+{
+  "name": "jest-extend-expect",
+  "version": "1.0.0",
+  "description": "Prueba de concepto para extender el expect de Jest",
+  "main": "index.js",
+  "scripts": {
+    "lint": "./node_modules/.bin/eslint .",
+    "lint:fix": "npm run lint -- --fix",
+    "test": "jest",
+    "test:watch": "npm t -- --watchAll"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ulisesantana/jest-extend-expect.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ulisesantana/jest-extend-expect/issues"
+  },
+  "homepage": "https://github.com/ulisesantana/jest-extend-expect#readme",
+  "devDependencies": {
+    "@babel/preset-env": "^7.11.0",
+    "babel-jest": "^26.3.0",
+    "eslint": "^7.7.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "jest": "^26.4.2",
+    "prettier": "^2.1.1"
+  }
+}
