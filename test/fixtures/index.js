@@ -1,3 +1,3 @@
 module.exports = {
-    fewExpenses: require('./fewExpenses')
-}
+  fewExpenses: require("./fewExpenses"),
+};
