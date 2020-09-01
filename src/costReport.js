@@ -8,27 +8,31 @@ function costReport(categories, expenses) {
     : report;
 }
 
+function add(...numsToSum) {
+  return numsToSum.reduce((acc, n) => Number((acc + n).toFixed(2)), 0);
+}
+
 function expensesReducer(categories) {
-  const categoriesKeys = mapCategoriesToProperties(categories);
+  const categoriesKeys = mapCategoriesToPropertyKeys(categories);
   return (report, { description, date, amount, category }) => {
     const categoryKey = categoriesKeys[category];
     return {
-      total: report.total + amount,
+      total: add(report.total, amount),
       expenses: {
         ...report.expenses,
         [categoryKey]: {
           name: categories[category],
-          total: (report.expenses[categoryKey]?.total || 0) + amount,
-          detailedExpenses: (report.expenses[
-            categoryKey
-          ]?.detailedExpenses || []).concat({ description, date, amount }),
+          total: add(report.expenses[categoryKey]?.total || 0, amount),
+          detailedExpenses: (
+            report.expenses[categoryKey]?.detailedExpenses || []
+          ).concat({ description, date, amount }),
         },
       },
     };
   };
 }
 
-function mapCategoriesToProperties(categories) {
+function mapCategoriesToPropertyKeys(categories) {
   return Boolean(categories) && Object.keys(categories)
     ? Object.entries(categories).reduce(
         (acc, [key, value]) => ({
