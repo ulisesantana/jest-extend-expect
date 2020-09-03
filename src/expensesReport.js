@@ -1,4 +1,4 @@
-function costReport(categories, expenses) {
+function expensesReport(categories, expenses) {
   const report = {
     total: 0,
     expenses: {},
@@ -44,4 +44,4 @@ function mapCategoriesToPropertyKeys(categories) {
     : categories;
 }
 
-module.exports = { costReport };
+module.exports = { expensesReport };

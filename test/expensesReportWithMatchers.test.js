@@ -1,33 +1,33 @@
-const { costReport } = require("../src/costReport");
+const { expensesReport } = require("../src/expensesReport");
 const fixtures = require("./fixtures");
 const { addCustomMatchers } = require("./helpers");
 
 const customExpect = addCustomMatchers(expect);
 
-describe("Cost report should", () => {
+describe("Expense report should", () => {
   it("return total cost and expenses", () => {
-    const report = costReport([]);
+    const report = expensesReport([]);
 
     customExpect(report).toHaveProperties("total", "expenses");
   });
 
-  it("compute total cost based in all expenses", () => {
+  it("compute total expenses", () => {
     const { categories, expenses, sample } = fixtures.fewExpenses;
-    const report = costReport(categories, expenses);
+    const report = expensesReport(categories, expenses);
 
     customExpect(report.total).toBe(sample.total);
   });
 
   it("compute total expenses for each category", () => {
     const { categories, expenses, sample } = fixtures.fewExpenses;
-    const report = costReport(categories, expenses);
+    const report = expensesReport(categories, expenses);
 
     customExpect(report).toHaveTotalExpensesByCategory(sample);
   });
 
   it("contain all detailed expenses by category", () => {
     const { categories, expenses, sample } = fixtures.fewExpenses;
-    const report = costReport(categories, expenses);
+    const report = expensesReport(categories, expenses);
 
     customExpect(report).toContainDetailedExpenses(sample);
   });
