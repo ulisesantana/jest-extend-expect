@@ -1,6 +1,6 @@
 const { expensesReport } = require("../src/expensesReport");
 const fixtures = require("./fixtures");
-const { addCustomMatchers } = require("./helpers");
+const addCustomMatchers = require("./matchers");
 
 const customExpect = addCustomMatchers(expect);
 
@@ -22,13 +22,20 @@ describe("Expense report should", () => {
     const { categories, expenses, sample } = fixtures.fewExpenses;
     const report = expensesReport(categories, expenses);
 
-    customExpect(report).toHaveTotalExpensesByCategory(sample);
+    customExpect(report.expenses).toHavePropertyAsFirstChildAndMatchValue(
+      "total",
+      sample.expenses
+    );
   });
 
   it("contain all detailed expenses by category", () => {
     const { categories, expenses, sample } = fixtures.fewExpenses;
     const report = expensesReport(categories, expenses);
 
-    customExpect(report).toContainDetailedExpenses(sample);
+    // improve error messages
+    customExpect(report.expenses).toHavePropertyAsFirstChildAndMatchValue(
+      "detailedExpenses",
+      sample.expenses
+    );
   });
 });
