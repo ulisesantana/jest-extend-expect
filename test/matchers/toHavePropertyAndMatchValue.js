@@ -1,4 +1,7 @@
-const { generateErrorMessageHandler } = require("./utils");
+const {
+  generateErrorMessageHandler,
+  getAllKeysFromObject,
+} = require("./utils");
 
 function checkArrayContainExpectedValueForFirsChildProperty(
   received,
@@ -12,7 +15,13 @@ function checkArrayContainExpectedValueForFirsChildProperty(
         expectedValue
       );
     } catch {
-      throw new Error(`category ${property} to contain ${expectedValue}`);
+      throw new Error(
+        `${property}.${childProperty} to contain ${
+          typeof expectedValue === "object"
+            ? JSON.stringify(expectedValue, null, 2)
+            : expectedValue
+        }`
+      );
     }
   });
 }
@@ -29,25 +38,34 @@ function checkExpectedValueForFirsChildProperty(
     );
   } catch {
     throw new Error(
-      `${property}.${childProperty} to be ${expected[property][childProperty]}`
+      `${property}.${childProperty} to be ${expected[property][childProperty]}, but ${received[property][childProperty]} received.`
     );
   }
 }
 
-module.exports = function toHavePropertyAsFirstChildAndMatchValueMatcher(
+module.exports = function toHavePropertyAndMatchValueMatcher(
   received,
   childProperty,
   expected,
   context
 ) {
   try {
-    for (const property in expected) {
-      if (!(property in received)) {
-        throw new Error(`missing property ${property}`);
-      }
+    const expectedProperties = getAllKeysFromObject(expected);
+    if (!expectedProperties.includes(childProperty)) {
+      throw new Error(`missing property ${childProperty}`);
+    }
 
-      if (!(childProperty in received[property])) {
-        throw new Error(`missing childProperty ${childProperty} for property ${property}`);
+    for (const property in expected) {
+      if (
+        typeof expected[property] === "object" &&
+        !(childProperty in expected[property])
+      ) {
+        return toHavePropertyAndMatchValueMatcher(
+          received[property],
+          childProperty,
+          expected[property],
+          context
+        );
       }
 
       if (Array.isArray(expected[property][childProperty])) {
@@ -68,11 +86,13 @@ module.exports = function toHavePropertyAsFirstChildAndMatchValueMatcher(
     }
   } catch (err) {
     return {
+      actual: received,
+      expected,
       message: generateErrorMessageHandler({
         context,
-        matcherName: "toHavePropertyAsFirstChildAndMatchValue",
+        matcherName: "toHavePropertyAndMatchValue",
         comment: `Value for property is not matching`,
-        expectedMessage: err.toString(),
+        expectedMessage: err.toString().replace("Error: ", ""),
       }),
       pass: false,
     };
@@ -80,12 +100,12 @@ module.exports = function toHavePropertyAsFirstChildAndMatchValueMatcher(
 
   return {
     actual: received,
+    expected,
     message: generateErrorMessageHandler({
       context,
-      matcherName: "toHavePropertyAsFirstChildAndMatchValue",
-      comment: `Value not expected to match`,
+      matcherName: "toHavePropertyAndMatchValue",
+      comment: `Value not expected to match is present and match with expected value`,
     }),
     pass: true,
-    expected: expected,
   };
 };

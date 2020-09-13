@@ -1,10 +1,12 @@
-const { generateErrorMessageHandler } = require("./utils");
+const {
+  generateErrorMessageHandler,
+  getAllKeysFromObject,
+} = require("./utils");
 
 module.exports = function toHavePropertiesMatcher(received, expected, context) {
+  const allProperties = getAllKeysFromObject(received);
   for (const property of expected) {
-    try {
-      expect(received).toHaveProperty(property);
-    } catch {
+    if (!allProperties.includes(property)) {
       return {
         message: generateErrorMessageHandler({
           context,

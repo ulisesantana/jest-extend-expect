@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "./node_modules/.bin/eslint .",
     "lint:fix": "npm run lint -- --fix",
-    "test": "jest",
+    "test": "jest . --verbose",
     "test:watch": "npm t -- --watchAll"
   },
   "repository": {

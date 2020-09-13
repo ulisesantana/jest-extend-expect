@@ -1,13 +1,13 @@
 const toHavePropertiesMatcher = require("./toHaveProperties");
-const toHavePropertyAsFirstChildAndMatchValueMatcher = require("./toHavePropertyAsFirstChildAndMatchValue");
+const toHavePropertyAndMatchValueMatcher = require("./toHavePropertyAndMatchValue");
 
 module.exports = function addCustomMatchers(expect) {
   expect.extend({
     toHaveProperties(received, ...expected) {
       return toHavePropertiesMatcher(received, expected, this);
     },
-    toHavePropertyAsFirstChildAndMatchValue(received, property, expected) {
-      return toHavePropertyAsFirstChildAndMatchValueMatcher(
+    toHavePropertyAndMatchValue(received, property, expected) {
+      return toHavePropertyAndMatchValueMatcher(
         received,
         property,
         expected,

@@ -22,20 +22,16 @@ describe("Expense report should", () => {
     const { categories, expenses, sample } = fixtures.fewExpenses;
     const report = expensesReport(categories, expenses);
 
-    customExpect(report.expenses).toHavePropertyAsFirstChildAndMatchValue(
-      "total",
-      sample.expenses
-    );
+    customExpect(report).toHavePropertyAndMatchValue("total", sample);
   });
 
   it("contain all detailed expenses by category", () => {
     const { categories, expenses, sample } = fixtures.fewExpenses;
     const report = expensesReport(categories, expenses);
 
-    // improve error messages
-    customExpect(report.expenses).toHavePropertyAsFirstChildAndMatchValue(
+    customExpect(report).toHavePropertyAndMatchValue(
       "detailedExpenses",
-      sample.expenses
+      sample
     );
   });
 });
