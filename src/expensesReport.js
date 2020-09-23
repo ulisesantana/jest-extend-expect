@@ -8,7 +8,7 @@ function expensesReport(categories, expenses) {
     : report;
 }
 
-function add(...numsToSum) {
+function sum(...numsToSum) {
   return numsToSum.reduce((acc, n) => Number((acc + n).toFixed(2)), 0);
 }
 
@@ -17,12 +17,12 @@ function expensesReducer(categories) {
   return (report, { description, date, amount, category }) => {
     const categoryKey = categoriesKeys[category];
     return {
-      total: add(report.total, amount),
+      total: sum(report.total, amount),
       expenses: {
         ...report.expenses,
         [categoryKey]: {
           name: categories[category],
-          total: add(report.expenses[categoryKey]?.total || 0, amount),
+          total: sum(report.expenses[categoryKey]?.total || 0, amount),
           detailedExpenses: (
             report.expenses[categoryKey]?.detailedExpenses || []
           ).concat({ description, date, amount }),
