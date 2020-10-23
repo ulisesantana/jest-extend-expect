@@ -19,12 +19,12 @@ class ExpensesReporter {
     return (report, { description, date, amount, category }) => {
       const categoryKey = categoriesKeys[category];
       return {
-        total: this.#add(report.total, amount),
+        total: this.#sum(report.total, amount),
         expenses: {
           ...report.expenses,
           [categoryKey]: {
             name: this.categories[category],
-            total: this.#add(report.expenses[categoryKey]?.total || 0, amount),
+            total: this.#sum(report.expenses[categoryKey]?.total || 0, amount),
             detailedExpenses: (
               report.expenses[categoryKey]?.detailedExpenses || []
             ).concat({ description, date, amount }),
@@ -46,7 +46,7 @@ class ExpensesReporter {
       : this.categories;
   };
 
-  #add = (...numsToSum) => {
+  #sum = (...numsToSum) => {
     return numsToSum.reduce((acc, n) => Number((acc + n).toFixed(2)), 0);
   };
 }
