@@ -1,9 +1,9 @@
-const { expensesReport } = require("../src/expensesReport");
+const { ExpensesReporter } = require("../src/ExpensesReporter");
 const fixtures = require("./fixtures");
 
 describe("Expenses report should", () => {
   it("return total cost and expenses", () => {
-    const report = expensesReport([]);
+    const report = new ExpensesReporter([]).exec();
 
     expect(report).toHaveProperty("total");
     expect(report).toHaveProperty("expenses");
@@ -11,14 +11,14 @@ describe("Expenses report should", () => {
 
   it("compute total expenses", () => {
     const { categories, expenses, sample } = fixtures.fewExpenses;
-    const report = expensesReport(categories, expenses);
+    const report = new ExpensesReporter(categories, expenses).exec();
 
     expect(report.total).toBe(sample.total);
   });
 
   it("compute total expenses for each category", () => {
     const { categories, expenses, sample } = fixtures.fewExpenses;
-    const report = expensesReport(categories, expenses);
+    const report = new ExpensesReporter(categories, expenses).exec();
 
     for (const expenseCategory in sample.expenses) {
       expect(report.expenses[expenseCategory].total).toBe(
@@ -29,7 +29,7 @@ describe("Expenses report should", () => {
 
   it("contain all detailed expenses by category", () => {
     const { categories, expenses, sample } = fixtures.fewExpenses;
-    const report = expensesReport(categories, expenses);
+    const report = new ExpensesReporter(categories, expenses).exec();
 
     for (const expenseCategory in sample.expenses) {
       sample.expenses[expenseCategory].detailedExpenses.forEach(
